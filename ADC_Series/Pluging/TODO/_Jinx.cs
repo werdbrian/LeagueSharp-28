@@ -9,7 +9,7 @@
     using Orbwalking = Orbwalking;
     using static Common;
 
-    internal class Draven
+    internal class _Jinx
     {
         private static Spell Q;
         private static Spell W;
@@ -22,16 +22,8 @@
 
         private static HpBarDraw HpBarDraw = new HpBarDraw();
 
-        public Draven()
+        public _Jinx()
         {
-            Q = new Spell(SpellSlot.Q);
-            W = new Spell(SpellSlot.W);
-            E = new Spell(SpellSlot.E, 950f);
-            R = new Spell(SpellSlot.R, 3000f);
-
-            E.SetSkillshot(0.25f, 100f, 1400f, false, SkillshotType.SkillshotLine);
-            R.SetSkillshot(0.4f, 160f, 2000f, false, SkillshotType.SkillshotLine);
-
 
         }
     }

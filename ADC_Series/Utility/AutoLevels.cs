@@ -15,8 +15,10 @@
             {
                 AutoLevelMenu.AddItem(new MenuItem("LevelsEnable", "Enabled", true).SetValue(false));
                 AutoLevelMenu.AddItem(new MenuItem("LevelsAutoR", "Auto Level R", true).SetValue(true));
-                AutoLevelMenu.AddItem(new MenuItem("LevelsDelay", "Auto Level Delays", true).SetValue(new Slider(700, 0, 2000)));
-                AutoLevelMenu.AddItem(new MenuItem("LevelsLevels", "When Player Level >= Enable!", true).SetValue(new Slider(3, 1, 6)));
+                AutoLevelMenu.AddItem(
+                    new MenuItem("LevelsDelay", "Auto Level Delays", true).SetValue(new Slider(700, 0, 2000)));
+                AutoLevelMenu.AddItem(
+                    new MenuItem("LevelsLevels", "When Player Level >= Enable!", true).SetValue(new Slider(3, 1, 6)));
                 AutoLevelMenu.AddItem(
                     new MenuItem("LevelsMode", "Mode: ", true).SetValue(
                         new StringList(new[]
