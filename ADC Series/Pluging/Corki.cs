@@ -179,7 +179,10 @@
                 return;
             }
 
-            R.Range = Me.HasBuff("CorkiMissileBarrageCounterBig") ? 1500f : 1300f;
+            if (R.Level > 0)
+            {
+                R.Range = Me.HasBuff("CorkiMissileBarrageCounterBig") ? 1500f : 1300f;
+            }
 
             SemiRLogic();
             AutoHarass();
@@ -219,6 +222,11 @@
 
         private void AutoHarass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Menu.Item("AutoHarass", true).GetValue<KeyBind>().Active &&
                 Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                 Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed &&
@@ -276,6 +284,11 @@
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 var target = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Physical);
