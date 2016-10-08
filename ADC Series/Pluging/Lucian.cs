@@ -226,6 +226,11 @@
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 if (Menu.Item("HarassW", true).GetValue<bool>() && Q.IsReady())
@@ -423,9 +428,6 @@
 
         private void Cast_E(Obj_AI_Hero target)
         {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-
             var castpos = Me.ServerPosition.Extend(Game.CursorPos, 220);
             var maxepos = Me.ServerPosition.Extend(Game.CursorPos, E.Range);
 
