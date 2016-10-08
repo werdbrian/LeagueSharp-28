@@ -298,30 +298,27 @@
 
         private void LaneClear()
         {
-            if (!Me.UnderTurret(true))
+            if (Me.ManaPercent >= Menu.Item("LaneClearMana", true).GetValue<Slider>().Value)
             {
-                if (Me.ManaPercent >= Menu.Item("LaneClearMana", true).GetValue<Slider>().Value)
+                if (Menu.Item("LaneClearQ", true).GetValue<bool>() && Q.IsReady())
                 {
-                    if (Menu.Item("LaneClearQ", true).GetValue<bool>() && Q.IsReady())
+                    var minions = MinionManager.GetMinions(Me.Position, Q.Range);
+
+                    if (minions.Any())
                     {
-                        var minions = MinionManager.GetMinions(Me.Position, Q.Range);
-
-                        if (minions.Any())
+                        if (Menu.Item("LaneClearQOut", true).GetValue<bool>())
                         {
-                            if (Menu.Item("LaneClearQOut", true).GetValue<bool>())
-                            {
-                                var mins =
-                                    minions.Where(
-                                        x =>
-                                            x.DistanceToPlayer() > Orbwalking.GetRealAutoAttackRange(Me) &&
-                                            x.Health < Q.GetDamage(x) &&
-                                            HealthPrediction.GetHealthPrediction(x, 250) > 0);
+                            var mins =
+                                minions.Where(
+                                    x =>
+                                        x.DistanceToPlayer() > Orbwalking.GetRealAutoAttackRange(Me) &&
+                                        x.Health < Q.GetDamage(x) &&
+                                        HealthPrediction.GetHealthPrediction(x, 250) > 0);
 
-                                Q.Cast(mins.Any() ? mins.FirstOrDefault() : minions.FirstOrDefault(), true);
-                            }
-                            else
-                                Q.Cast(minions.FirstOrDefault(), true);
+                            Q.Cast(mins.Any() ? mins.FirstOrDefault() : minions.FirstOrDefault(), true);
                         }
+                        else
+                            Q.Cast(minions.FirstOrDefault(), true);
                     }
                 }
             }
