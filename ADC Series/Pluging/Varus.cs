@@ -46,7 +46,7 @@
                 ComboMenu.AddItem(
                     new MenuItem("ComboRCount", "Use R|Counts Enemies In Range >= x", true).SetValue(new Slider(3, 1, 5)));
                 ComboMenu.AddItem(
-                    new MenuItem("ComboPassive", "Use Spell|When target Have x Passive", true).SetValue(new Slider(3, 1, 3)));
+                    new MenuItem("ComboPassive", "Use Spell|When target Have x Passive", true).SetValue(new Slider(3, 0, 3)));
             }
 
             var HarassMenu = Menu.AddSubMenu(new Menu("Harass", "Harass"));
@@ -156,6 +156,11 @@
 
         private void AutoHarass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Menu.Item("AutoHarass", true).GetValue<KeyBind>().Active &&
                 Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                 Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed && 
@@ -193,6 +198,27 @@
 
             if (CheckTarget(target, qRange))
             {
+                if (Menu.Item("ComboR", true).GetValue<bool>() && R.IsReady() && target.IsValidTarget(R.Range))
+                {
+                    if (Menu.Item("ComboRSolo", true).GetValue<bool>() && Me.CountEnemiesInRange(1000) <= 2)
+                    {
+                        if (target.Health + target.HPRegenRate * 2 <
+                            R.GetDamage(target) + W.GetDamage(target) + (E.IsReady() ? E.GetDamage(target) : 0) +
+                            (Q.IsReady() ? Q.GetDamage(target) : 0) + Me.GetAutoAttackDamage(target) * 3)
+                        {
+                            R.CastTo(target);
+                        }
+                    }
+
+                    var rPred = R.GetPrediction(target, true);
+
+                    if (rPred.AoeTargetsHitCount >= Menu.Item("ComboRCount", true).GetValue<Slider>().Value ||
+                        Me.CountEnemiesInRange(R.Range) >= Menu.Item("ComboRCount", true).GetValue<Slider>().Value)
+                    {
+                        R.CastTo(target);
+                    }
+                }
+
                 if (Menu.Item("ComboQ", true).GetValue<bool>() && Q.IsReady() && target.IsValidTarget(qRange))
                 {
                     if (target.DistanceToPlayer() >= Orbwalking.GetRealAutoAttackRange(Me) + 100 ||
@@ -216,32 +242,16 @@
                         E.CastTo(target);
                     }
                 }
-
-                if (Menu.Item("ComboR", true).GetValue<bool>() && R.IsReady() && target.IsValidTarget(R.Range))
-                {
-                    if (Menu.Item("ComboRSolo", true).GetValue<bool>() && Me.CountEnemiesInRange(1000) <= 2)
-                    {
-                        if (target.Health + target.HPRegenRate * 2 <
-                            R.GetDamage(target) + W.GetDamage(target) + (E.IsReady() ? E.GetDamage(target) : 0) +
-                            (Q.IsReady() ? Q.GetDamage(target) : 0) + Me.GetAutoAttackDamage(target)*3)
-                        {
-                            R.CastTo(target);
-                        }
-                    }
-
-                    var rPred = R.GetPrediction(target, true);
-
-                    if (rPred.AoeTargetsHitCount >= Menu.Item("ComboRCount", true).GetValue<Slider>().Value ||
-                        Me.CountEnemiesInRange(R.Range) >= Menu.Item("ComboRCount", true).GetValue<Slider>().Value)
-                    {
-                        R.CastTo(target);
-                    }
-                }
             }
         }
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 var target = TargetSelector.GetTarget(qRange, TargetSelector.DamageType.Physical);
