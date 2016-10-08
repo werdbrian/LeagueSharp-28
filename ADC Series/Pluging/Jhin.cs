@@ -134,7 +134,9 @@
         private void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs Args)
         {
             if (!sender.IsMe)
+            {
                 return;
+            }
 
             var spellslot = Me.GetSpellSlot(Args.SData.Name);
 
@@ -255,18 +257,19 @@
                 }
             }
 
+            RLogic();
+
             if (R.Instance.Name == "JhinRShot")
             {
                 Orbwalker.SetAttack(false);
                 Orbwalker.SetMovement(false);
-            }
-            else
-            {
-                Orbwalker.SetAttack(true);
-                Orbwalker.SetMovement(true);
+                return;
             }
 
-            RLogic();
+            Orbwalker.SetAttack(true);
+            Orbwalker.SetMovement(true);
+
+
             KillSteal();
             Auto();
 
@@ -490,6 +493,11 @@
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 var wTarget = TargetSelector.GetTarget(1500f, TargetSelector.DamageType.Physical);
