@@ -126,20 +126,13 @@
             {
                 var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
 
-                if (Utils.GameTimeTickCount + Game.Ping / 2 + 25 >= LastAATick + attackDelay && Player.HasBuff("GravesBasicAttackAmmo1"))
-                {
-                    return true;
-                }
-
-                return false;
+                return Utils.GameTimeTickCount + Game.Ping/2 + 25 >= LastAATick + attackDelay &&
+                       Player.HasBuff("GravesBasicAttackAmmo1");
             }
 
             if (Player.ChampionName == "Jhin")
             {
-                if (Player.HasBuff("JhinPassiveReload"))
-                {
-                    return false;
-                }
+                return !Player.HasBuff("JhinPassiveReload");
             }
 
             if (Player.IsCastingInterruptableSpell())
@@ -438,48 +431,41 @@
 
         private static void OnProcessSpell(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs Spell)
         {
-            try
+            var spellName = Spell.SData.Name;
+
+            if (sender.IsMe && IsAutoAttackReset(spellName) && Spell.SData.SpellCastTime == 0)
             {
-                var spellName = Spell.SData.Name;
+                ResetAutoAttackTimer();
+            }
 
-                if (sender.IsMe && IsAutoAttackReset(spellName) && Spell.SData.SpellCastTime == 0)
+            if (!IsAutoAttack(spellName))
+            {
+                return;
+            }
+
+            if (sender.IsMe &&
+                (Spell.Target is Obj_AI_Base || Spell.Target is Obj_BarracksDampener || Spell.Target is Obj_HQ))
+            {
+                LastAATick = Utils.GameTimeTickCount - Game.Ping / 2;
+                _missileLaunched = false;
+                LastMoveCommandT = 0;
+                _autoattackCounter++;
+
+                var @base = Spell.Target as Obj_AI_Base;
+
+                if (@base != null)
                 {
-                    ResetAutoAttackTimer();
-                }
+                    var target = @base;
 
-                if (!IsAutoAttack(spellName))
-                {
-                    return;
-                }
-
-                if (sender.IsMe &&
-                    (Spell.Target is Obj_AI_Base || Spell.Target is Obj_BarracksDampener || Spell.Target is Obj_HQ))
-                {
-                    LastAATick = Utils.GameTimeTickCount - Game.Ping / 2;
-                    _missileLaunched = false;
-                    LastMoveCommandT = 0;
-                    _autoattackCounter++;
-
-                    var @base = Spell.Target as Obj_AI_Base;
-
-                    if (@base != null)
+                    if (target.IsValid)
                     {
-                        var target = @base;
-
-                        if (target.IsValid)
-                        {
-                            FireOnTargetSwitch(target);
-                            _lastTarget = target;
-                        }
+                        FireOnTargetSwitch(target);
+                        _lastTarget = target;
                     }
                 }
+            }
 
-                FireOnAttack(sender, _lastTarget);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            FireOnAttack(sender, _lastTarget);
         }
 
         private static void SpellbookOnStopCast(Spellbook spellbook, SpellbookStopCastEventArgs Args)
@@ -1145,25 +1131,18 @@
 
             private void GameOnOnGameUpdate(EventArgs args)
             {
-                try
+                if (ActiveMode == OrbwalkingMode.None)
                 {
-                    if (ActiveMode == OrbwalkingMode.None)
-                    {
-                        return;
-                    }
-
-                    Move = Menu.Item("EnableOrbwalker").GetValue<bool>();
-
-                    var target = GetTarget();
-
-                    Orbwalk(target, _orbwalkingPoint.To2D().IsValid() ? _orbwalkingPoint : Game.CursorPos,
-                        Menu.Item("ExtraWindup").GetValue<Slider>().Value,
-                        Math.Max(Menu.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
+                    return;
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+
+                Move = Menu.Item("EnableOrbwalker").GetValue<bool>();
+
+                var target = GetTarget();
+
+                Orbwalk(target, _orbwalkingPoint.To2D().IsValid() ? _orbwalkingPoint : Game.CursorPos,
+                    Menu.Item("ExtraWindup").GetValue<Slider>().Value,
+                    Math.Max(Menu.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
             }
 
             private bool ShouldAttackMinion(Obj_AI_Minion minion)
