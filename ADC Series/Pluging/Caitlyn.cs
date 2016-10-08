@@ -314,6 +314,11 @@
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 if (Menu.Item("HarassQ", true).GetValue<bool>() && Q.IsReady())
