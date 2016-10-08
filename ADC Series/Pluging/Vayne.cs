@@ -144,6 +144,11 @@
 
         private void AutoE()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
             {
                 foreach (
@@ -176,6 +181,11 @@
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 if (Menu.Item("HarassE", true).GetValue<bool>())
