@@ -114,12 +114,18 @@
 
         private void OnUpdate(EventArgs Args)
         {
-            E.Range = 630 + 7 * (Me.Level - 1);
-            R.Range = 630 + 7 * (Me.Level - 1);
-
             if (Me.IsDead)
             {
                 return;
+            }
+
+            if (E.Level > 0)
+            {
+                E.Range = 630 + 7 * (Me.Level - 1);
+            }
+            if (R.Level > 0)
+            {
+                R.Range = 630 + 7 * (Me.Level - 1);
             }
 
             KillSteal();
@@ -236,6 +242,11 @@
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 if (E.IsReady())
