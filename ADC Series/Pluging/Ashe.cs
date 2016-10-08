@@ -363,21 +363,23 @@
 
         private void Harass()
         {
-            if (!Menu.Item("HarassW", true).GetValue<bool>() ||
-                !(Menu.Item("HarassWMana", true).GetValue<Slider>().Value <= Me.ManaPercent) || !W.IsReady() ||
-                Me.HasBuff("AsheQAttack"))
+            if (Me.UnderTurret(true))
             {
                 return;
             }
 
-            var target = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
-
-            if (!CheckTarget(target, W.Range))
+            if (Me.ManaPercent >= Menu.Item("HarassWMana", true).GetValue<Slider>().Value)
             {
-                return;
-            }
+                if (Menu.Item("HarassW", true).GetValue<bool>() && W.IsReady() && !Me.HasBuff("AsheQAttack"))
+                {
+                    var target = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
 
-            W.CastTo(target);
+                    if (CheckTarget(target, W.Range))
+                    {
+                        W.CastTo(target);
+                    }
+                }
+            }
         }
 
         private void LaneClear()
