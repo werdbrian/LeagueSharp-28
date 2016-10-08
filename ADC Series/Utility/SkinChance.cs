@@ -138,7 +138,7 @@
             }
         }
 
-        public SkinChance()
+        public static void Init()
         {
             SkinID = Me.BaseSkinId;
 
@@ -154,7 +154,7 @@
             Game.OnUpdate += OnUpdate;
         }
 
-        private void EnbaleSkin(object obj, OnValueChangeEventArgs Args)
+        private static void EnbaleSkin(object obj, OnValueChangeEventArgs Args)
         {
             if (!Args.GetNewValue<bool>())
             {
@@ -162,7 +162,7 @@
             }
         }
 
-        private void OnUpdate(EventArgs Args)
+        private static void OnUpdate(EventArgs Args)
         {
             if (Me.IsDead)
             {

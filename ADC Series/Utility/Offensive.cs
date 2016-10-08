@@ -11,7 +11,7 @@
         private static readonly Obj_AI_Hero Me = Program.Me;
         private static readonly Orbwalking.Orbwalker Orbwalker = Program.Orbwalker;
 
-        public Offensive()
+        public static void Init()
         {
             var OffensiveMenu = Menu.AddSubMenu(new Menu("Offensive", "Offensive"));
             {

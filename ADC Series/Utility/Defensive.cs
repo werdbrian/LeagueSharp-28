@@ -9,14 +9,14 @@
     internal class Defensive
     {
         private static int UseCleanTime, CleanID;
-        private static int Dervish = 3137, Mercurial = 3139, Quicksilver = 3140, Mikaels = 3222, RanduinsOmen = 3143;
+        private static int Dervish = 3137, Mercurial = 3139, Quicksilver = 3140, Mikaels = 3222;
         private static readonly List<BuffType> DebuffTypes = new List<BuffType>();
 
         private static readonly Menu Menu = Program.Menu;
         private static readonly Obj_AI_Hero Me = Program.Me;
         private static readonly Orbwalking.Orbwalker Orbwalker = Program.Orbwalker;
 
-        public Defensive()
+        public static void Init()
         {
             var CleanseMenu = Menu.AddSubMenu(new Menu("Cleanse", "Cleanse"));
             {
@@ -44,7 +44,7 @@
             Game.OnUpdate += OnUpdate;
         }
 
-        private void OnUpdate(EventArgs Args)
+        private static void OnUpdate(EventArgs Args)
         {
             if (Me.IsDead)
             {
@@ -70,7 +70,7 @@
             }
         }
 
-        private bool CanClean(Obj_AI_Hero hero)
+        private static bool CanClean(Obj_AI_Hero hero)
         {
             var CanUse = false;
 
@@ -154,7 +154,7 @@
             return CanUse;
         }
 
-        private bool CanUseQuicksilver()
+        private static bool CanUseQuicksilver()
         {
             if (Items.HasItem(Quicksilver) && Items.CanUseItem(Quicksilver))
             {
@@ -166,7 +166,7 @@
             return false;
         }
 
-        private bool CanUseMikaels()
+        private static bool CanUseMikaels()
         {
             if (Items.HasItem(Mikaels) && Items.CanUseItem(Mikaels))
             {
@@ -178,7 +178,7 @@
             return false;
         }
 
-        private bool CanUseMercurial()
+        private static bool CanUseMercurial()
         {
             if (Items.HasItem(Mercurial) && Items.CanUseItem(Mercurial))
             {
@@ -190,7 +190,7 @@
             return false;
         }
 
-        private bool CanUseDervish()
+        private static bool CanUseDervish()
         {
             if (Items.HasItem(Dervish) && Items.CanUseItem(Dervish))
             {

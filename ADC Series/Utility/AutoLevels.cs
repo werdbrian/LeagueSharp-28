@@ -9,7 +9,7 @@
         private static readonly Menu Menu = Program.Menu;
         private static readonly Obj_AI_Hero Me = Program.Me;
 
-        public AutoLevels()
+        public static void Init()
         {
             var AutoLevelMenu = Menu.AddSubMenu(new Menu("Auto Levels", "Auto Levels"));
             {
@@ -26,7 +26,7 @@
             Obj_AI_Base.OnLevelUp += OnLevelUp;
         }
 
-        private void OnLevelUp(Obj_AI_Base sender, EventArgs Args)
+        private static void OnLevelUp(Obj_AI_Base sender, EventArgs Args)
         {
             if (!sender.IsMe || !Menu.Item("LevelsEnable", true).GetValue<bool>())
             {

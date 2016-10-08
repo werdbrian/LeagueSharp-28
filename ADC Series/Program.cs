@@ -51,7 +51,7 @@
                 {
                     "Common Prediction", "OKTW Prediction", "SDK Prediction", "SPrediction(Need F5 Reload)",
                     "xcsoft AIO Prediction"
-                }, 1)));
+                }, 2)));
                 PredMenu.AddItem(
                     new MenuItem("SetHitchance", "HitChance: ", true).SetValue(
                         new StringList(new[] { "VeryHigh", "High", "Medium", "Low" })));
@@ -62,11 +62,10 @@
                 PredMenu.AddItem(new MenuItem("AboutxcsoftAIOPred", "xcsoft AIO Prediction -> xcsoft ALL In One Prediction"));
             }
 
-            var autoLevels = new Utility.AutoLevels();
-            var autoPosions = new Utility.AutoPotions();
-            var skinChance = new Utility.SkinChance();
-            var offensive = new Utility.Offensive();
-            var defensive = new Utility.Defensive();
+            Utility.AutoLevels.Init();
+            Utility.SkinChance.Init();
+            Utility.Offensive.Init();
+            Utility.Defensive.Init();
 
             Championmenu = Menu.AddSubMenu(new Menu("Pluging: " + Me.ChampionName, "Pluging: " + Me.ChampionName));
             {
@@ -136,10 +135,10 @@
                         var twitch = new Pluging.Twitch();
                         Game.PrintChat("Flowers' ADC Series: " + Me.ChampionName + " Load Succeed! Credit: NightMoon");
                         break;
-                    //case "Urgot":
-                    //    var urgot = new Pluging.Urgot();
-                    //    Game.PrintChat("Flowers' ADC Series: " + Me.ChampionName + " Load Succeed! Credit: NightMoon");
-                    //    break;
+                    case "Urgot":
+                        var urgot = new Pluging.Urgot();
+                        Game.PrintChat("Flowers' ADC Series: " + Me.ChampionName + " Load Succeed! Credit: NightMoon");
+                        break;
                     case "Varus":
                         var varus = new Pluging.Varus();
                         Game.PrintChat("Flowers' ADC Series: " + Me.ChampionName + " Load Succeed! Credit: NightMoon");
