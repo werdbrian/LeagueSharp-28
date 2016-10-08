@@ -168,14 +168,14 @@
             {
                 return;
             }
-            // Game.PrintChat(Args.SData.Name);
 
-            if (Me.GetSpellSlot(Args.SData.Name) == SpellSlot.W)
+            if (Args.SData.Name.Contains("KalistaW"))
             {
                 lastWCast = Utils.TickCount;
             }
 
-            if (Me.GetSpellSlot(Args.SData.Name) == SpellSlot.E)
+            if (Args.SData.Name.Contains("KalistaExpunge") || Args.SData.Name.Contains("KalistaExpungeWrapper") ||
+                Args.SData.Name.Contains("KalistaDummySpell"))
             {
                 lastECast = Utils.TickCount;
             }
@@ -210,19 +210,9 @@
                     {
                         var mob = mobs.FirstOrDefault();
 
-                        if (Menu.Item("JungleClearE", true).GetValue<bool>() && E.IsReady())
-                        {
-                            var ex = Me.Position.Extend(Game.CursorPos, 150);
-
-                            E.Cast(ex, true);
-                        }
-                        else if (Menu.Item("JungleClearQ", true).GetValue<bool>() && Q.IsReady())
+                        if (Menu.Item("JungleClearQ", true).GetValue<bool>() && Q.IsReady())
                         {
                             Q.Cast(mob, true);
-                        }
-                        else if (Menu.Item("JungleClearW", true).GetValue<bool>() && W.IsReady())
-                        {
-                            W.Cast(mob, true);
                         }
                     }
                 }
@@ -390,6 +380,11 @@
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Physical);
