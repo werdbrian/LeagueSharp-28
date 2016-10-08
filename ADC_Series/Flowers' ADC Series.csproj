@@ -98,7 +98,7 @@
     <Compile Include="Utility\AutoLevels.cs" />
     <Compile Include="Utility\Defensive.cs" />
     <Compile Include="Utility\Offensive.cs" />
-    <Compile Include="Utility\SkinChance.cs" />
+    <Compile Include="Utility\SkinChange.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

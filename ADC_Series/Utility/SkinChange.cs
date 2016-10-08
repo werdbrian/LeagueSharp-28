@@ -4,7 +4,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    internal class SkinChance
+    internal class SkinChange
     {
         private static int SkinID;
 
@@ -142,7 +142,7 @@
         {
             SkinID = Me.BaseSkinId;
 
-            var SkinMenu = Menu.AddSubMenu(new Menu("Skin Chance", "Skin Chance"));
+            var SkinMenu = Menu.AddSubMenu(new Menu("Skin Change", "Skin Change"));
             {
                 SkinMenu.AddItem(new MenuItem("EnableSkin", "Enabled", true).SetValue(false))
                     .DontSave().ValueChanged += EnbaleSkin;

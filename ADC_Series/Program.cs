@@ -63,7 +63,7 @@
             }
 
             Utility.AutoLevels.Init();
-            Utility.SkinChance.Init();
+            Utility.SkinChange.Init();
             Utility.Offensive.Init();
             Utility.Defensive.Init();
 
