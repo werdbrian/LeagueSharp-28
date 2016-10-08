@@ -158,7 +158,7 @@
                         {
                             E.CastOnUnit(target, true);
                         }
-                        else if (Menu.Item("ComboQ", true).GetValue<bool>() && Q.IsReady())
+                        else if (Menu.Item("ComboQ", true).GetValue<bool>() && Q.IsReady() && !Me.HasBuff("QuinnR"))
                         {
                             Q.CastTo(target);
                         }
@@ -274,7 +274,12 @@
 
             if (CheckTarget(target, Q.Range))
             {
-                if (Menu.Item("ComboQ", true).GetValue<bool>() && Q.IsReady())
+                if (Menu.Item("ComboE", true).GetValue<bool>() && E.IsReady() && Me.HasBuff("QuinnR"))
+                {
+                    E.CastOnUnit(target);
+                }
+
+                if (Menu.Item("ComboQ", true).GetValue<bool>() && Q.IsReady() && !Me.HasBuff("QuinnR"))
                 {
                     if (target.DistanceToPlayer() <= Orbwalking.GetRealAutoAttackRange(Me) && HavePassive(target))
                     {
@@ -299,6 +304,11 @@
 
         private void Harass()
         {
+            if (Me.UnderTurret(true))
+            {
+                return;
+            }
+
             if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
             {
                 if (Menu.Item("HarassQ", true).GetValue<bool>())
