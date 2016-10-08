@@ -28,7 +28,7 @@
 
         public MissFortune()
         {
-            Q = new Spell(SpellSlot.Q, 655f);
+            Q = new Spell(SpellSlot.Q, 700f);
             Q1 = new Spell(SpellSlot.Q, 1300f);
             W = new Spell(SpellSlot.W);
             E = new Spell(SpellSlot.E, 1000f);
@@ -75,6 +75,11 @@
                 JungleClearMenu.AddItem(new MenuItem("JungleClearE", "Use E", true).SetValue(true));
                 JungleClearMenu.AddItem(
                     new MenuItem("JungleClearMana", "When Player ManaPercent >= x%", true).SetValue(new Slider(30)));
+            }
+
+            var KillStealMenu = Menu.AddSubMenu(new Menu("KillSteal", "KillSteal"));
+            {
+                KillStealMenu.AddItem(new MenuItem("KillStealQ", "Use Q", true).SetValue(true));
             }
 
             var MiscMenu = Menu.AddSubMenu(new Menu("Misc", "Misc"));
@@ -169,12 +174,11 @@
             {
                 Orbwalker.SetAttack(false);
                 Orbwalker.SetMovement(false);
+                return;
             }
-            else
-            {
-                Orbwalker.SetAttack(true);
-                Orbwalker.SetMovement(true);
-            }
+
+            Orbwalker.SetAttack(true);
+            Orbwalker.SetMovement(true);
 
             SemiRLogic();
             AutoHarass();
@@ -252,18 +256,26 @@
 
         private void Harass()
         {
-            var target = TargetSelector.GetTarget(Q1.Range, TargetSelector.DamageType.Physical);
-
-            if (CheckTarget(target, Q1.Range))
+            if (Me.UnderTurret(true))
             {
-                if (Menu.Item("HarassQ", true).GetValue<bool>() && Q.IsReady() && target.IsValidTarget(Q1.Range))
-                {
-                    QLogic(target, Menu.Item("HarassQ1", true).GetValue<bool>());
-                }
+                return;
+            }
 
-                if (Menu.Item("HarassE", true).GetValue<bool>() && E.IsReady() && target.IsValidTarget(E.Range))
+            if (Me.ManaPercent >= Menu.Item("HarassMana", true).GetValue<Slider>().Value)
+            {
+                var target = TargetSelector.GetTarget(Q1.Range, TargetSelector.DamageType.Physical);
+
+                if (CheckTarget(target, Q1.Range))
                 {
-                    E.CastTo(target, true);
+                    if (Menu.Item("HarassQ", true).GetValue<bool>() && Q.IsReady() && target.IsValidTarget(Q1.Range))
+                    {
+                        QLogic(target, Menu.Item("HarassQ1", true).GetValue<bool>());
+                    }
+
+                    if (Menu.Item("HarassE", true).GetValue<bool>() && E.IsReady() && target.IsValidTarget(E.Range))
+                    {
+                        E.CastTo(target, true);
+                    }
                 }
             }
         }
