@@ -1,23 +1,21 @@
 ﻿DONE:
 Ashe
 Caitlyn
+Corki
 Ezreal
 Graves
 Jhin
+Kalista
+KogMaw
 Lucian
+MissFortune
+Quinn
 Sivir
 Tristana
 Twitch
-Vayne
-
-
-DONE but not test:
-Corki
-Kalista
-KogMaw
-MissFortune
-Quinn
+Urgot
 Varus
+Vayne
 
 
 TODO:
@@ -25,8 +23,6 @@ TODO:
 Draven: All Logic
 
 Jinx: All Logic
-
-Urgot: All Logic
 
 Kalista:Flee Q Logic?(Wall Jump?), Use Exploit Jump?
 
