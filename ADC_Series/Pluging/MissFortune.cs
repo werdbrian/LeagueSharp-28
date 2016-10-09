@@ -249,7 +249,7 @@
 
                 if (Menu.Item("ComboE", true).GetValue<bool>() && E.IsReady() && target.IsValidTarget(E.Range))
                 {
-                    E.CastTo(target, true);
+                    E.Cast(target.Position, true);
                 }
             }
         }
@@ -274,7 +274,7 @@
 
                     if (Menu.Item("HarassE", true).GetValue<bool>() && E.IsReady() && target.IsValidTarget(E.Range))
                     {
-                        E.CastTo(target, true);
+                        E.Cast(target.Position, true);
                     }
                 }
             }
