@@ -216,20 +216,20 @@
             if (CheckTarget(target, R.Range))
             {
                 if (Menu.Item("ComboE", true).GetValue<bool>() && E.IsReady() && target.IsValidTarget(700) &&
-                    E.GetPrediction(target).CollisionObjects.Count == 0 && E.CanCast(target))
+                    E.GetPrediction(target).CollisionObjects.Count == 0 && E.CanCast(target) && !Me.IsWindingUp)
                 {
                     E.Cast(target);
                 }
 
                 if (Menu.Item("ComboQ", true).GetValue<bool>() && Q.IsReady() && target.IsValidTarget(Q.Range) &&
-                    target.DistanceToPlayer() >= Menu.Item("ComboQRange", true).GetValue<Slider>().Value)
+                    target.DistanceToPlayer() >= Menu.Item("ComboQRange", true).GetValue<Slider>().Value && !Me.IsWindingUp)
                 {
                     Q.CastTo(target);
                 }
 
                 if (target.Health <= Q.GetDamage(target) + E.GetDamage(target) + Me.GetAutoAttackDamage(target) + 20 &&
                     E.CanCast(target) && Menu.Item("ComboE", true).GetValue<bool>() && E.IsReady() &&
-                    Menu.Item("ComboQ", true).GetValue<bool>() && Q.IsReady())
+                    Menu.Item("ComboQ", true).GetValue<bool>() && Q.IsReady() && !Me.IsWindingUp)
                 {
                     E.Cast(target);
                     Q.Cast(target);
@@ -281,11 +281,6 @@
                     {
                         return;
                     }
-
-                    //if (R.GetPrediction(target).CollisionObjects.Any(x => x is Obj_AI_Hero))
-                    //{
-                    //    return;
-                    //}
 
                     var RCollision =
                         LeagueSharp.Common.Collision
