@@ -42,6 +42,9 @@
                 ComboMenu.AddItem(new MenuItem("ComboW", "Use W", true).SetValue(true));
                 ComboMenu.AddItem(new MenuItem("ComboE", "Use E", true).SetValue(true));
                 ComboMenu.AddItem(new MenuItem("ComboR", "Use R", true).SetValue(true));
+                ComboMenu.AddItem(new MenuItem("ComboRCheck", "Use R |Safe Check", true).SetValue(true));
+                ComboMenu.AddItem(
+                    new MenuItem("ComboRRange", "Use R |Min Cast Range >= x", true).SetValue(new Slider(800, 0, 1500)));
                 ComboMenu.AddItem(
                  new MenuItem("ComboRMin", "Use R| Min Hit Enemies >= x", true).SetValue(new Slider(2, 1, 5)));
             }
@@ -235,26 +238,37 @@
 
                 if (Menu.Item("ComboR", true).GetValue<bool>() && R.IsReady())
                 {
-                    var RTarget = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Magical);
+                    var rTarget = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Magical);
 
-                    if (CheckTarget(RTarget))
+                    if (CheckTarget(rTarget))
                     {
-                        if (RTarget.Health + RTarget.HPRegenRate * 2 <= R.GetDamage(target) &&
-                            RTarget.IsValidTarget(1500))
+                        if (Menu.Item("ComboRCheck", true).GetValue<bool>() &&
+                            (Me.UnderTurret(true) || Me.CountEnemiesInRange(600) > 1))
                         {
-                            R.CastTo(RTarget);
+                            return;
                         }
-                        else if (RTarget.IsValidTarget(Q.Range + E.Range - 200) &&
-                            RTarget.Health + RTarget.MagicalShield + RTarget.HPRegenRate * 2 <=
-                            R.GetDamage(RTarget) + Q.GetDamage(RTarget) + W.GetDamage(RTarget) &&
+
+                        if (rTarget.DistanceToPlayer() < Menu.Item("ComboRRange", true).GetValue<Slider>().Value)
+                        {
+                            return;
+                        }
+
+                        if (rTarget.Health + rTarget.HPRegenRate * 2 <= R.GetDamage(target) &&
+                            rTarget.IsValidTarget(1500))
+                        {
+                            R.CastTo(rTarget);
+                        }
+                        else if (rTarget.IsValidTarget(Q.Range + E.Range - 200) &&
+                            rTarget.Health + rTarget.MagicalShield + rTarget.HPRegenRate * 2 <=
+                            R.GetDamage(rTarget) + Q.GetDamage(rTarget) + W.GetDamage(rTarget) &&
                             Q.IsReady() && W.IsReady() &&
-                            RTarget.CountAlliesInRange(Q.Range + E.Range - 200) <= 1)
+                            rTarget.CountAlliesInRange(Q.Range + E.Range - 200) <= 1)
                         {
-                            R.CastTo(RTarget);
+                            R.CastTo(rTarget);
                         }
-                        else if (RTarget.IsValidTarget())
+                        else if (rTarget.IsValidTarget())
                         {
-                            R.CastIfWillHit(RTarget, Menu.Item("ComboRMin", true).GetValue<Slider>().Value);
+                            R.CastIfWillHit(rTarget, Menu.Item("ComboRMin", true).GetValue<Slider>().Value);
                         }
                     }
                 }
