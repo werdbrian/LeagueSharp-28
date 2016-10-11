@@ -1,4 +1,4 @@
-﻿namespace Flowers_ADC_Series
+﻿namespace Flowers_ADC_Series.Common
 {
     using LeagueSharp;
     using SharpDX;

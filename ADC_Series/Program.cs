@@ -43,7 +43,9 @@
             Menu = new Menu("Flowers' ADC Series", "Flowers' ADC Series", true);
 
             var OrbMenu = Menu.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
-            Orbwalker = new Orbwalking.Orbwalker(OrbMenu);
+            {
+                Orbwalker = new Orbwalking.Orbwalker(OrbMenu);
+            }
 
             var PredMenu = Menu.AddSubMenu(new Menu("Prediction", "Prediction"));
             {

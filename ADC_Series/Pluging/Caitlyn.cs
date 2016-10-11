@@ -1,5 +1,6 @@
 ﻿namespace Flowers_ADC_Series.Pluging
 {
+    using Common;
     using System;
     using System.Linq;
     using System.Collections.Generic;
@@ -8,7 +9,7 @@
     using SharpDX;
     using Color = System.Drawing.Color;
     using Orbwalking = Orbwalking;
-    using static Common;
+    using static Common.Common;
 
     internal class Caitlyn
     {
@@ -244,17 +245,27 @@
                         {
                             if (target.IsMelee && target.DistanceToPlayer() < 250)
                             {
-                                W.Cast(Me, true);
+                                W.Cast(Me.Position);
                             }
-                            else if (target.IsValidTarget(W.Range))
+                            else
                             {
-                                W.CastTo(target);
+                                var wPred = W.GetPrediction(target);
+
+                                if (wPred.Hitchance >= HitChance.VeryHigh && target.IsValidTarget(W.Range))
+                                {
+                                    W.Cast(wPred.CastPosition);
+                                }
                             }
                         }
                         else
                         {
-                            W.Cast(W.GetPrediction(target).CastPosition +
-                                      Vector3.Normalize(target.ServerPosition - Me.ServerPosition) * 150, true);
+                            var wPred = W.GetPrediction(target);
+
+                            if (wPred.Hitchance >= HitChance.VeryHigh && target.IsValidTarget(W.Range))
+                            {
+                                W.Cast(wPred.CastPosition +
+                                       Vector3.Normalize(target.ServerPosition - Me.ServerPosition)*100);
+                            }
                         }
                     }
                 }

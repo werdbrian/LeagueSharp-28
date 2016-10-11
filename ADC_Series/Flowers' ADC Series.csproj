@@ -45,6 +45,9 @@
     <Reference Include="LeagueSharp.Data">
       <HintPath>D:\qMLQe\I5QEqMLQe\References\LeagueSharp.Data.dll</HintPath>
     </Reference>
+    <Reference Include="SebbyLib">
+      <HintPath>D:\qMLQe\I5QEqMLQe\References\SebbyLib.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX">
       <HintPath>D:\qMLQe\I5QEqMLQe\References\SharpDX.dll</HintPath>
     </Reference>
@@ -68,6 +71,7 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\HpBarDraw.cs" />
     <Compile Include="Lizzaran.SFX\ListExtensions.cs" />
+    <Compile Include="Orbwalking\Orbwalking.cs" />
     <Compile Include="Pluging\Ashe.cs" />
     <Compile Include="Pluging\Caitlyn.cs" />
     <Compile Include="Pluging\Corki.cs" />
@@ -88,8 +92,6 @@
     <Compile Include="Pluging\Varus.cs" />
     <Compile Include="Pluging\Vayne.cs" />
     <Compile Include="Prediction\CPrediction.cs" />
-    <Compile Include="Prediction\OKTWPrediction.cs" />
-    <Compile Include="Orbwalking\Orbwalking.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prediction\SDKPrediction.cs" />
