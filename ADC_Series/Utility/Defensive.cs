@@ -20,7 +20,7 @@
         {
             var CleanseMenu = Menu.AddSubMenu(new Menu("Cleanse", "Cleanse"));
             {
-                var Debuff = CleanseMenu.AddSubMenu(new Menu("Debuffs", "Buffs"));
+                var Debuff = CleanseMenu.AddSubMenu(new Menu("Debuffs", "Debuffs"));
                 {
                     Debuff.AddItem(new MenuItem("Cleanblind", "Blind", true).SetValue(true));
                     Debuff.AddItem(new MenuItem("Cleancharm", "Charm", true).SetValue(true));
@@ -34,7 +34,7 @@
                     Debuff.AddItem(new MenuItem("Cleansilence", "Silence", true).SetValue(false));
                     Debuff.AddItem(new MenuItem("Cleanexhaust", "Exhaust", true).SetValue(true));
                 }
-                CleanseMenu.AddItem(new MenuItem("CleanEnable", "Enable!", true).SetValue(true));
+                CleanseMenu.AddItem(new MenuItem("CleanEnable", "Enabled", true).SetValue(true));
                 CleanseMenu.AddItem(new MenuItem("CleanDelay", "Clean Delay(ms)", true).SetValue(new Slider(0, 0, 2000)));
                 CleanseMenu.AddItem(
                     new MenuItem("CleanBuffTime", "Debuff Less End Times(ms)", true).SetValue(new Slider(800, 0, 1000)));

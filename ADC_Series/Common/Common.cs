@@ -468,8 +468,8 @@
             var h = (float)Math.Sqrt((radius1 * radius1) - (a * a));
             var direction = (center2 - center1).Normalized();
             var pa = center1 + (a * direction);
-            var s1 = pa + (h * direction.Perpendicular());
-            var s2 = pa - (h * direction.Perpendicular());
+            var s1 = pa + h * direction.Perpendicular();
+            var s2 = pa - h * direction.Perpendicular();
 
             return new[] { s1, s2 };
         }

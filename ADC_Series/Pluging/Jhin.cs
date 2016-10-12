@@ -49,10 +49,7 @@
                 ComboMenu.AddItem(new MenuItem("ComboWOnly", "Use W| Only Use to MarkTarget?", true).SetValue(true));
                 ComboMenu.AddItem(new MenuItem("ComboE", "Use E", true).SetValue(true));
                 ComboMenu.AddItem(new MenuItem("ComboR", "Use R| In Shot Mode", true).SetValue(true));
-                ComboMenu.AddItem(new MenuItem("ComboItem", "Items Setting", true));
                 ComboMenu.AddItem(new MenuItem("ComboYoumuu", "Use Youmuu", true).SetValue(true));
-                ComboMenu.AddItem(new MenuItem("ComboCutlass", "Use Cutlass", true).SetValue(true));
-                ComboMenu.AddItem(new MenuItem("ComboBotrk", "Use Botrk", true).SetValue(true));
             }
 
             var HarassMenu = Menu.AddSubMenu(new Menu("Harass", "Harass"));
@@ -432,20 +429,6 @@
             }
 
             var orbTarget = Orbwalker.GetTarget();
-
-            if (CheckTarget((Obj_AI_Base)orbTarget, Orbwalking.GetRealAutoAttackRange(Me)))
-            {
-                if (Menu.Item("ComboCutlass", true).GetValue<bool>() && Items.HasItem(3144) && Items.CanUseItem(3144))
-                {
-                    Items.UseItem(3144, (Obj_AI_Base)orbTarget);
-                }
-
-                if (Menu.Item("ComboBotrk", true).GetValue<bool>() && Items.HasItem(3153) && Items.CanUseItem(3153) &&
-                    (orbTarget.HealthPercent < 80 || Me.HealthPercent < 80))
-                {
-                    Items.UseItem(3153, (Obj_AI_Base)orbTarget);
-                }
-            }
 
             var wTarget = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
 

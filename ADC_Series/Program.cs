@@ -156,15 +156,16 @@
                 }
             }
 
-            Menu.AddItem(new MenuItem("SpaceBar", "   ", true));
+            Menu.AddItem(new MenuItem("SpaceBar1", "   ", true));
             Menu.AddItem(new MenuItem("Credit", "Credit: NightMoon", true));
 
+            Menu.AddToMainMenu();
+
+            // Inject SPredcition Menu
             if (Menu.Item("SelectPred", true).GetValue<StringList>().SelectedIndex == 3)
             {
                 SPrediction.Prediction.Initialize(PredMenu);
             }
-
-            Menu.AddToMainMenu();
         }
     }
 }
