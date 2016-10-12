@@ -46,6 +46,7 @@
                 ComboMenu.AddItem(new MenuItem("ComboQExtended", "Use Q Extended", true).SetValue(true));
                 ComboMenu.AddItem(new MenuItem("ComboW", "Use W", true).SetValue(true));
                 ComboMenu.AddItem(new MenuItem("ComboE", "Use E", true).SetValue(true));
+                ComboMenu.AddItem(new MenuItem("ComboELogic", "Use E|First E Logic?", true).SetValue(true));
                 ComboMenu.AddItem(new MenuItem("ComboR", "Use R", true).SetValue(true));
             }
 
@@ -186,6 +187,17 @@
 
         private void Combo()
         {
+            if (Menu.Item("ComboELogic", true).GetValue<bool>() && E.IsReady())
+            {
+                var range = E.Range + Orbwalking.GetRealAutoAttackRange(Me);
+                var target = TargetSelector.GetTarget(range, TargetSelector.DamageType.Physical);
+
+                if (target.IsValidTarget(range) && !Orbwalker.InAutoAttackRange(target))
+                {
+                    Cast_E(target);
+                }
+            }
+
             if (Menu.Item("ComboQExtended", true).GetValue<bool>() && Q.IsReady())
             {
                 var target = TargetSelector.GetTarget(QExtend.Range, TargetSelector.DamageType.Physical);
