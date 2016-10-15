@@ -252,7 +252,7 @@
             if (Player.Distance(target.Position) > Q.Range)
                 return false;
 
-            if (!Menu.Item("Q_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 50 && GetCurrentHeat() < 60)
+            if (!Menu.Item("Q_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 50 && GetCurrentHeat() <70)
                 return true;
 
             return !(GetCurrentHeat() > 79) || Player.GetSpellDamage(target, SpellSlot.Q, 1) + 
