@@ -168,7 +168,7 @@
             if (target == null)
                 return;
 
-            if (Menu.Item("UseQCombo", true).GetValue<bool>() && ShouldQ(target))
+            if (Menu.Item("UseQCombo", true).GetValue<bool>() && (target))
                 Q.Cast(target);
 
             if (Menu.Item("UseWCombo", true).GetValue<bool>() && Menu.Item("W_Always", true).GetValue<bool>() && W.IsReady())
@@ -254,9 +254,10 @@
 
             if (!Menu.Item("Q_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 50 && GetCurrentHeat() <70)
                 return true;
-
-            return !(GetCurrentHeat() > 79) || Player.GetSpellDamage(target, SpellSlot.Q, 1) + 
-                Player.GetAutoAttackDamage(target) * 2 > target.Health;
+                
+            if (GetCurrentHeat() > 79 && !(Player.GetSpellDamage(target, SpellSlot.Q, 1)  > target.Health))
+                return false;
+            return true;
         }
 
         private bool ShouldE(Obj_AI_Hero target)
@@ -267,13 +268,14 @@
             if (Player.Distance(target.Position) > E.Range)
                 return false;
 
-            if (E.GetPrediction(target).Hitchance < HitChance.VeryHigh)
+            if(E.GetPrediction(target).Hitchance < GetHitchance(source))
+               if (!menu.Item("E_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 89)
+                    return false;
 
-                if (!Menu.Item("E_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 50 && GetCurrentHeat() < 70)
-                    return true;
-
-            return !(GetCurrentHeat() > 80) || Player.GetSpellDamage(target, SpellSlot.E, 1) +
-                Player.GetAutoAttackDamage(target) * 2 > target.Health;
+            if (GetCurrentHeat() > 89 && !(Player.GetSpellDamage(target, SpellSlot.E, 1) > target.Health))
+                return false;
+                
+            return true;
         }
 
         private void StayInDangerZone()
