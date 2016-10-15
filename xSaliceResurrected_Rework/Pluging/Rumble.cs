@@ -269,7 +269,7 @@
                 return false;
 
             if (E.GetPrediction(target).Hitchance < HitChance.VeryHigh)
-               if (!menu.Item("E_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 89)
+               if (!Menu.Item("E_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 89)
                     return false;
 
             if (GetCurrentHeat() > 89 && !(Player.GetSpellDamage(target, SpellSlot.E, 1) > target.Health))
