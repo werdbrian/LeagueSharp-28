@@ -287,7 +287,7 @@
                 return;
             }
 
-            if (GetCurrentHeat() < 21 &&GetCurrentHeat() < 31 && Q.IsReady() && Menu.Item("Q_Auto_Heat", true).GetValue<bool>())
+            if (GetCurrentHeat() > 21 &&GetCurrentHeat() < 31 && Q.IsReady() && Menu.Item("Q_Auto_Heat", true).GetValue<bool>())
             {
                 var enemy = HeroManager.Enemies.Where(x => !x.IsDead)
                     .OrderBy(x => Player.Distance(x.Position)).FirstOrDefault();
