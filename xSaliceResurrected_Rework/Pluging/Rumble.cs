@@ -168,7 +168,7 @@
             if (target == null)
                 return;
 
-            if (Menu.Item("UseQCombo", true).GetValue<bool>() && (target))
+            if (Menu.Item("UseQCombo", true).GetValue<bool>() && ShouldQ(target))
                 Q.Cast(target);
 
             if (Menu.Item("UseWCombo", true).GetValue<bool>() && Menu.Item("W_Always", true).GetValue<bool>() && W.IsReady())
