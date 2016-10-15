@@ -381,7 +381,6 @@
                 return;
 
             if (Menu.Item("Draw_Q", true).GetValue<bool>())
-                  if (menu.Item("Draw_Q", true).GetValue<bool>())
                 if (Q.Level > 0)
                     {
                         Render.Circle.DrawCircle(Player.Position, 600, Q.IsReady() ? Color.Green : Color.Red);
