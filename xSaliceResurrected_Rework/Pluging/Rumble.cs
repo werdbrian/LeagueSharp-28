@@ -252,10 +252,10 @@
             if (Player.Distance(target.Position) > Q.Range)
                 return false;
 
-            if (!Menu.Item("Q_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 80)
-                return false;
+            if (!Menu.Item("Q_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 50 && GetCurrentHeat() < 60)
+                return true;
 
-            return !(GetCurrentHeat() > 80) || Player.GetSpellDamage(target, SpellSlot.Q, 1) + 
+            return !(GetCurrentHeat() > 79) || Player.GetSpellDamage(target, SpellSlot.Q, 1) + 
                 Player.GetAutoAttackDamage(target) * 2 > target.Health;
         }
 
@@ -269,8 +269,8 @@
 
             if (E.GetPrediction(target).Hitchance < HitChance.VeryHigh)
 
-                if (!Menu.Item("E_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 80)
-                    return false;
+                if (!Menu.Item("E_Over_Heat", true).GetValue<bool>() && GetCurrentHeat() > 50 && GetCurrentHeat() < 70)
+                    return true;
 
             return !(GetCurrentHeat() > 80) || Player.GetSpellDamage(target, SpellSlot.E, 1) +
                 Player.GetAutoAttackDamage(target) * 2 > target.Health;
@@ -281,13 +281,13 @@
             if (Player.InFountain() || Player.IsRecalling())
                 return;
 
-            if (GetCurrentHeat() < 21 && W.IsReady() && Menu.Item("W_Auto_Heat", true).GetValue<bool>())
+            if (GetCurrentHeat() > 19 &&GetCurrentHeat() < 35 && W.IsReady() && Menu.Item("W_Auto_Heat", true).GetValue<bool>())
             {
                 W.Cast();
                 return;
             }
 
-            if (GetCurrentHeat() > 21 &&GetCurrentHeat() < 31 && Q.IsReady() && Menu.Item("Q_Auto_Heat", true).GetValue<bool>())
+            if (GetCurrentHeat() < 20  && Q.IsReady() && Menu.Item("Q_Auto_Heat", true).GetValue<bool>())
             {
                 var enemy = HeroManager.Enemies.Where(x => !x.IsDead)
                     .OrderBy(x => Player.Distance(x.Position)).FirstOrDefault();
@@ -297,7 +297,7 @@
                 return;
             }
 
-            if (GetCurrentHeat() < 31 && E.IsReady() && Menu.Item("E_Auto_Heat", true).GetValue<bool>())
+            if (GetCurrentHeat() < 41 && E.IsReady() && Menu.Item("E_Auto_Heat", true).GetValue<bool>())
             {
                 var enemy = HeroManager.Enemies.Where(x => !x.IsDead)
                     .OrderBy(x => Player.Distance(x.Position)).FirstOrDefault();
